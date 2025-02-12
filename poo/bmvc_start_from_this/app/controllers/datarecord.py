@@ -20,13 +20,15 @@ class DataRecord():
 
 
     def book(self,username,password):
-
         new_user= UserAccount(username,password)
         self.__user_accounts.append(new_user)
+        self._save_to_json()
+
+    def save_to_json(self):
         with open("app/controllers/db/user_accounts.json", "w") as arquivo_json:
             user_data = [vars(user_account) for user_account in \
             self.__user_accounts]
-            json.dump(user_data, arquivo_json)
+            json.dump(user_data, arquivo_json, indent=4)
 
 
     def getCurrentUser(self,session_id):
@@ -60,4 +62,18 @@ class DataRecord():
     def logout(self, session_id):
         if session_id in self.__authenticated_users:
             del self.__authenticated_users[session_id] # Remove o usuário logado
+
+    def update_score(self, session_id, points):
+        user = self.getCurrentUser(session_id)
+        if user:
+            user.score = points
+            self.save_to_json()
+            return True
+        return False
+
+    def get_score(self, session_id):
+        user = self.getCurrentUser(session_id)
+        if user:
+            return user.score
+        return 0
 

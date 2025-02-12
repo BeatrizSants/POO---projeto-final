@@ -1,5 +1,5 @@
 from app.controllers.application import Application
-from bottle import Bottle, route, run, request, static_file, redirect, template, response
+from bottle import Bottle, route, run, request, static_file, redirect, template, response, json_dumps
 
 app = Bottle()
 ctl = Application() #
@@ -59,6 +59,50 @@ def logout():
       ctl.logout_user()
       response.delete_cookie('session_id')
       return redirect('/')
+
+@app.route('/jogo_marmota/<username>', method='GET')
+def jogo_marmota(username):
+    if ctl.is_authenticated(username):
+        return ctl.render('jogo_marmota', username)
+    else:
+        return redirect('/')
+    
+@app.post('/update_score')
+def update_score():
+    session_id = request.get_cookie('session_id')
+    print(f"Session ID recebido: {session_id}")  # LOG
+
+    if not session_id or not ctl.is_authenticated(ctl.get_authenticated_username(session_id)):
+        response.status = 401
+        return json_dumps({"status": "error", "message": "Usuário não autenticado."})
+
+    data = request.json
+    print(f"Dados recebidos: {data}")  # LOG
+
+    points = data.get('score')
+    if points is None:
+        response.status = 400
+        return json_dumps({"status": "error", "message": "Pontuação não fornecida."})
+
+    result = ctl.update_score(session_id, points)
+    print(f"Resultado da atualização: {result}")  # LOG
+    response.content_type = "application/json"
+
+    if isinstance(result, tuple):
+        response.status = 400
+        return json_dumps(result[0])
+    return json_dumps(result)
+
+
+@app.route('/get_score', method='GET')
+def get_score():
+    result = ctl.get_score()
+    return json_dumps(result)
+
+
+
+
+
 #-----------------------------------------------------------------------------
 # Suas rotas aqui:
 

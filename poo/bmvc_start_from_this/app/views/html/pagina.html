@@ -8,12 +8,14 @@
     <script src="/static/js/pagina.js"></script>
 </head>
 <body>
-    <h1>Minha página com interação de modelos :</h1>
-
+    
     % if transfered:
+    <h1>Perfil de {{ current_user.username }}</h1>
+
         <div>
             <h2>Dados do Usuário:</h2>
             <p>Username:  {{current_user.username}} </p>
+            <p>Pontuação Total: {{ current_user.score }}</p>
             <form action="/logout" method="post">
                 <button type="submit">Logout</button>
             </form>

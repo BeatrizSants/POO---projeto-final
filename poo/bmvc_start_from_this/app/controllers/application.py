@@ -8,7 +8,8 @@ class Application():
         self.pages = {
             'pagina':self.pagina,
             'portal': self.portal,
-            'lobby': self.lobby
+            'lobby': self.lobby,
+            'jogo_marmota': self.jogo_marmota
         }
 
         self.__model = DataRecord()
@@ -67,3 +68,21 @@ class Application():
         else:
             return redirect('/')
         
+    def jogo_marmota(self, username=None):
+        if self.is_authenticated(username):
+            user = self.__model.getCurrentUser(self.get_session_id())
+            return template('app/views/html/jogo_marmota', current_user=user)
+        else:
+            return redirect('/')
+    
+    def update_score(self, session_id, points):
+        if self.__model.update_score(session_id, points):
+            return {"status":"success", "message": "Pontuação atualizada"}
+        else:
+            return {"status":"error", "message": "Falha ao atualizar pontuação"}
+        
+    def get_score(self):
+        session_id = self.get_session_id()
+        if session_id:
+            return self.__model.get_score(session_id)
+        return {"status": "error", "message": "Sessão não encontrada"}
