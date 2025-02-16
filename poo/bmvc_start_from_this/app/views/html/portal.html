@@ -6,8 +6,9 @@
     <title>Portal</title>
 </head>
 <body>
-    <h1>Login</h1>
+    
     <form action="/portal" method="post">
+        <h1>Login</h1>
         <label for="username">Nome:</label>
         <input id="username" name="username" type="text" required /><br>
 
@@ -16,6 +17,14 @@
 
         <input value="Login" type="submit" />
     </form>
+
+    <form action="/signup" method="post">
+        <h2>Cadastre-se</h2>
+        <input type="text" name="username" placeholder="Usuário" required>
+        <input type="password" name="password" placeholder="Senha" required>
+        <button type="submit">Criar Conta</button>
+    </form>
+    
 
     <div id="status"></div>
 </body>

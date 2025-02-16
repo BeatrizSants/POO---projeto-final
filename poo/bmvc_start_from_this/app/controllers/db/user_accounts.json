@@ -1,12 +1,12 @@
 [
     {
-        "username": "Henrique",
-        "password": "123456",
-        "score": 5
+        "username": "Beatriz",
+        "password": "123",
+        "score": 8
     },
     {
-        "username": "Moura",
-        "password": "456789",
+        "username": "LAra",
+        "password": "123",
         "score": 0
     }
 ]

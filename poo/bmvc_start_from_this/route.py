@@ -12,26 +12,10 @@ ctl = Application() #
 def serve_static(filepath):
     return static_file(filepath, root='./app/static')
 
-@app.route('/helper')
-def helper(info= None):
-    return ctl.render('helper')
 
 @app.route('/', method='GET')
 def login():
-    session_id = ctl.get_session_id()
-    username = ctl.get_authenticated_username(session_id)
-    if session_id:
-        username = ctl.get_authenticated_username(session_id)
-        if username:  # Se o usuário estiver autenticado
-            return redirect(f'/lobby/{username}')
     return ctl.render('portal') 
-
-@app.route('/pagina/<username>', methods=['GET'])
-def action_pagina(username=None):
-    if not username:
-        return ctl.render('/')
-    else:
-        return ctl.render('pagina',username)
 
 
 @app.route('/portal', method='POST')
@@ -46,12 +30,28 @@ def action_portal():
     else:
         return redirect('/')
     
+
+@app.route('/signup', method='POST')
+def signup():
+    username = request.forms.get('username')
+    password = request.forms.get('password')
+    if not ctl.create_user(username, password): return template('app/views/html/portal', error="Nome de usuário já existe!")
+    return redirect('/')  # Redireciona para login após o cadastro
+
+    
 @app.route('/lobby/<username>', method='GET')
 def lobby(username):
-    if ctl.is_authenticated(username):
-        return ctl.render('lobby', username)
-    else:
+    if not username or not ctl.is_authenticated(username):
         return redirect('/')
+    return ctl.render('lobby', username)
+
+
+@app.route('/pagina/<username>', methods=['GET'])
+def action_pagina(username=None):
+    if not username:
+        return ctl.render('/')
+    else:
+        return ctl.render('pagina',username)
 
     
 @app.route('/logout', method='POST')
@@ -67,17 +67,25 @@ def jogo_marmota(username):
     else:
         return redirect('/')
     
+
+@app.route('/ranking/<username>', method='GET')
+def ranking(username):
+    if not username or not ctl.is_authenticated(username):
+        return redirect('/')
+    return ctl.ranking()
+
+
+
+    #pontuação jogo
 @app.post('/update_score')
 def update_score():
     session_id = request.get_cookie('session_id')
-    print(f"Session ID recebido: {session_id}")  # LOG
 
     if not session_id or not ctl.is_authenticated(ctl.get_authenticated_username(session_id)):
         response.status = 401
         return json_dumps({"status": "error", "message": "Usuário não autenticado."})
 
     data = request.json
-    print(f"Dados recebidos: {data}")  # LOG
 
     points = data.get('score')
     if points is None:
@@ -85,7 +93,6 @@ def update_score():
         return json_dumps({"status": "error", "message": "Pontuação não fornecida."})
 
     result = ctl.update_score(session_id, points)
-    print(f"Resultado da atualização: {result}")  # LOG
     response.content_type = "application/json"
 
     if isinstance(result, tuple):

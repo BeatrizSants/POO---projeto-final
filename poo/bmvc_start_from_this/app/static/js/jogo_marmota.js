@@ -46,6 +46,15 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('score').textContent = score;
     }
 
+    moles.forEach(mole => {
+        mole.addEventListener('click', () => handleMoleClick(mole));
+    });
+
+    // Adicionando os event listeners para as traps
+    traps.forEach(trap => {
+        trap.addEventListener('click', () => handleTrapClick(trap));
+    });
+
     // Função para iniciar o jogo
     function startGame() {
         clearInterval(gameInterval);
@@ -60,7 +69,8 @@ document.addEventListener('DOMContentLoaded', () => {
             sendScoreToServer();
         }, gameTime);
     }
-
+// Expondo a função `startGame` para ser chamada no HTML
+    window.startGame = startGame;
     // Função para enviar a pontuação para o servidor
     function sendScoreToServer() {
         fetch('/update_score', {
@@ -100,17 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Adicionando os event listeners para os moles
-    moles.forEach(mole => {
-        mole.addEventListener('click', () => handleMoleClick(mole));
-    });
-
-    // Adicionando os event listeners para as traps
-    traps.forEach(trap => {
-        trap.addEventListener('click', () => handleTrapClick(trap));
-    });
-
-    // Expondo a função `startGame` para ser chamada no HTML
-    window.startGame = startGame;
+    
 
     // Carregar a pontuação salva ao carregar a página
     loadScore();

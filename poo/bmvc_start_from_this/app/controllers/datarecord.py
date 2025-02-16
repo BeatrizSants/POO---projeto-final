@@ -20,9 +20,9 @@ class DataRecord():
 
 
     def book(self,username,password):
-        new_user= UserAccount(username,password)
+        new_user= UserAccount(username,password,score=0)
         self.__user_accounts.append(new_user)
-        self._save_to_json()
+        self.save_to_json()
 
     def save_to_json(self):
         with open("app/controllers/db/user_accounts.json", "w") as arquivo_json:
@@ -58,6 +58,9 @@ class DataRecord():
                 return session_id  # Retorna o ID de sessão para o usuário
         return None
 
+    def user_exists(self, username):
+        return any(user.username == username for user in self.__user_accounts)
+
 
     def logout(self, session_id):
         if session_id in self.__authenticated_users:
@@ -66,7 +69,7 @@ class DataRecord():
     def update_score(self, session_id, points):
         user = self.getCurrentUser(session_id)
         if user:
-            user.score = points
+            user.score += points
             self.save_to_json()
             return True
         return False
@@ -77,3 +80,6 @@ class DataRecord():
             return user.score
         return 0
 
+    def get_all_users(self):
+        # Retorna todos os usuários com suas pontuações
+        return [vars(user) for user in self.__user_accounts]
