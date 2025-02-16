@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lobby</title>
+    <link rel="stylesheet" href="/static/css/lobby.css">
+</head>
+<body>
+    <h1>Bem-vindo ao Lobby, {{current_user.username}}!</h1>
+
+    <p>Escolha o que deseja fazer:</p>
+    <ul>
+        <li>
+            <form action="/pagina/{{current_user.username}}" method="get">
+                <button type="submit">👤 Ver Perfil</button>
+            </form>
+        </li>
+    </ul>
+    <ul>
+        <li>
+            <form action="/jogo_marmota/{{current_user.username}}" method="get">
+                <button type="submit">🎯 Jogo 1</button>
+            </form>
+        </li>
+    </ul>
+
+    
+</body>
+</html>
