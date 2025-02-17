@@ -64,8 +64,7 @@ class Application():
     def update_score(self, session_id, points):
         return self.__score.update_score(session_id, points)
 
-    def get_score(self):
-        session_id = self.get_session_id()
+    def get_score(self,session_id):
         return self.__score.get_score(session_id)
 
 

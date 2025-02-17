@@ -1,8 +1,9 @@
 from app.controllers.application import Application
 from bottle import Bottle, route, run, request, static_file, redirect, template, response, json_dumps
-
+from app.models.gameservice import GameService
 app = Bottle()
-ctl = Application() #
+ctl = Application()
+gameservice = GameService(ctl)
 
 
 #-----------------------------------------------------------------------------
@@ -74,38 +75,25 @@ def ranking(username):
         return redirect('/')
     return ctl.ranking()
 
+@app.route('/start_game', method='POST')
+def start_game():
+    return gameservice.start_game()
 
+@app.route('/hit_mole', method='POST')
+def hit_mole():
+    return gameservice.hit_mole()
 
-    #pontuação jogo
-@app.post('/update_score')
-def update_score():
-    session_id = request.get_cookie('session_id')
+@app.route('/hit_trap', method='POST')
+def hit_trap():
+    return gameservice.hit_trap()
 
-    if not session_id or not ctl.is_authenticated(ctl.get_authenticated_username(session_id)):
-        response.status = 401
-        return json_dumps({"status": "error", "message": "Usuário não autenticado."})
-
-    data = request.json
-
-    points = data.get('score')
-    if points is None:
-        response.status = 400
-        return json_dumps({"status": "error", "message": "Pontuação não fornecida."})
-
-    result = ctl.update_score(session_id, points)
-    response.content_type = "application/json"
-
-    if isinstance(result, tuple):
-        response.status = 400
-        return json_dumps(result[0])
-    return json_dumps(result)
-
+@app.route('/end_game', method='POST')
+def end_game():
+    return gameservice.end_game()
 
 @app.route('/get_score', method='GET')
 def get_score():
-    result = ctl.get_score()
-    return json_dumps(result)
-
+    return gameservice.get_score()
 
 
 

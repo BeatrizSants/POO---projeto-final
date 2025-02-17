@@ -1,6 +1,5 @@
 
 #classe responsavel por gerenciar atualização de pontuação
-
 class Score:
     def __init__(self,data_record):
         self.data_record=data_record

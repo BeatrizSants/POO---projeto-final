@@ -1,38 +1,55 @@
-from app.controllers.application import Application
 from bottle import request, response, json_dumps
 
 class GameService:
-    def __init__(self):
-        self.ctl = Application()  # Instância do controlador da aplicação
-    
-    def update_score(self):
-        session_id = request.get_cookie('session_id')
-        print(f"Session ID recebido: {session_id}")  # LOG
+    def __init__(self, app):
+        self.app = app  # Application já foi instanciado em route.py
 
-        if not session_id or not self.ctl.is_authenticated(self.ctl.get_authenticated_username(session_id)):
+    def start_game(self):
+        session_id = request.get_cookie('session_id')
+        if not session_id:
+            response.status = 401
+            return json_dumps({"status": "error", "message": "Usuário não autenticado."})
+        
+        username = self.app.get_authenticated_username(session_id)
+        if not username:
+            response.status = 401
+            return json_dumps({"status": "error", "message": "Sessão inválida."})
+
+
+        return json_dumps({"status": "success"})
+
+    def hit_mole(self):
+        session_id = request.get_cookie('session_id')
+        if not session_id or not self.app.is_authenticated(self.app.get_authenticated_username(session_id)):
             response.status = 401
             return json_dumps({"status": "error", "message": "Usuário não autenticado."})
 
-        data = request.json
-        print(f"Dados recebidos: {data}")  # LOG
+        new_score = self.app.update_score(session_id, 1)
+        return json_dumps({"status": "success", "score": new_score})
 
-        points = data.get('score')
-        if points is None:
-            response.status = 400
-            return json_dumps({"status": "error", "message": "Pontuação não fornecida."})
+    def hit_trap(self):
+        session_id = request.get_cookie('session_id')
+        if not session_id or not self.app.is_authenticated(self.app.get_authenticated_username(session_id)):
+            response.status = 401
+            return json_dumps({"status": "error", "message": "Usuário não autenticado."})
 
-        result = self.ctl.update_score(session_id, points)
-        print(f"Resultado da atualização: {result}")  # LOG
-        response.content_type = "application/json"
+        new_score = self.app.update_score(session_id, -1)
+        return json_dumps({"status": "success", "score": new_score})
 
-        return result
-        
+    def end_game(self):
+        session_id = request.get_cookie('session_id')
+        if not session_id or not self.app.is_authenticated(self.app.get_authenticated_username(session_id)):
+            response.status = 401
+            return json_dumps({"status": "error", "message": "Usuário não autenticado."})
+
+        final_score = self.app.get_score(session_id)
+        return json_dumps({"status": "success", "score": final_score})
 
     def get_score(self):
         session_id = request.get_cookie('session_id')
-        if not session_id or not self.ctl.is_authenticated(self.ctl.get_authenticated_username(session_id)):
+        if not session_id or not self.app.is_authenticated(self.app.get_authenticated_username(session_id)):
             response.status = 401
             return json_dumps({"status": "error", "message": "Usuário não autenticado."})
-        
-        result = self.ctl.get_score(session_id)
-        return json_dumps(result)
+
+        score = self.app.get_score(session_id)
+        return json_dumps({"score": score})
