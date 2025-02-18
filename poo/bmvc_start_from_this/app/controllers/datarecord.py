@@ -13,8 +13,8 @@ class DataRecord():
             with open("app/controllers/db/user_accounts.json", "r") as arquivo_json:
                 user_data = json.load(arquivo_json)
                 self.__user_accounts = [UserAccount(**data) for data in user_data]
-        except FileNotFoundError:
-            self.__user_accounts.append(UserAccount('Guest', '010101','101010'))
+        except (FileNotFoundError, json.JSONDecodeError):
+            self.__user_accounts = []
 
 
     def book(self,username,password):
@@ -59,7 +59,7 @@ class DataRecord():
 
 
     def logout(self, session_id):
-        if session_id in self.__authenticated_users:
+        if session_id and session_id in self.__authenticated_users:
             del self.__authenticated_users[session_id] #remove o usuário logado
 
     def update_score(self, session_id, points): #atualiza pontuacão do usuário

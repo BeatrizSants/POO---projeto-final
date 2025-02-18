@@ -14,7 +14,10 @@ class Application():
         }
 
         self.__model = DataRecord()
+        #composição Applicatin com DataRecors
         self.__score = Score(self.__model)
+        #associação entre Score e DataRecord
+        #composição Apli=plication com Score
         self.__current_username = None
 
     def render(self,page,username=None):
@@ -30,9 +33,10 @@ class Application():
 
     def is_authenticated(self, username):
         session_id = self.get_session_id()
-        print(session_id)
-        current_username = self.__model.getUserName(session_id)
-        return username == current_username
+        if not session_id:
+            return False
+        return username == self.__model.getUserName(session_id)
+
 
 
     def authenticate_user(self, username, password):

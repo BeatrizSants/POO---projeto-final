@@ -4,6 +4,7 @@ from app.models.gameservice import GameService
 app = Bottle()
 ctl = Application()
 gameservice = GameService(ctl)
+#associação entre GameService e Application
 
 
 #-----------------------------------------------------------------------------
