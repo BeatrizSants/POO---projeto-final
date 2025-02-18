@@ -1,0 +1,64 @@
+ /* Definindo o fundo e o estilo do corpo da página */
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #222;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+} 
+
+/* Estilo do formulário */
+.form-container {
+    background-color: rgba(255, 20, 147, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    margin: 50px auto;
+    box-shadow: 0px 0px 15px rgba(255, 20, 147, 0.7);
+}
+
+/* Título do login e cadastro */
+h1, h2 {
+    color: #fff;
+}
+
+/* Estilo para inputs e botões */
+input[type="text"], input[type="password"], button {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 2px solid #fff;
+    border-radius: 5px;
+    background-color: #222;
+    color: #fff;
+    outline: none;
+}
+
+/* Botão de submit */
+input[type="submit"], button {
+    background-color: #000;
+    color: #ff1493;
+    border: 2px solid #ff1493;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100%;
+    transition: 0.3s;
+}
+
+input[type="submit"]:hover, button:hover {
+    background-color: #ff1493;
+    color: #000;
+}
+
+/* Estilo para a mensagem de status */
+#status-message {
+    color: #ff1493;
+    font-size: 18px;
+}
+
+/* Adicionando um pouco mais de espaço entre o login e o cadastro */
+h2 {
+    margin-top: 30px;
+}
