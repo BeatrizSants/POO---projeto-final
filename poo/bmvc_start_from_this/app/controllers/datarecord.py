@@ -3,8 +3,6 @@ import json
 import uuid
 
 class DataRecord():
-    """Banco de dados JSON para o recurso Usuários"""
-
     def __init__(self):
         self.__user_accounts= [] # banco (json)
         self.__authenticated_users = {}
@@ -25,11 +23,10 @@ class DataRecord():
         self.save_to_json()
 
     def save_to_json(self):
-        with open("app/controllers/db/user_accounts.json", "w") as arquivo_json:
+        with open("app/controllers/db/user_accounts.json", "w") as arquivo_json: #escrever no json
             user_data = [vars(user_account) for user_account in \
             self.__user_accounts]
             json.dump(user_data, arquivo_json, indent=4)
-
 
     def getCurrentUser(self,session_id):
         if session_id in self.__authenticated_users:
@@ -37,36 +34,35 @@ class DataRecord():
         else:
             return None
 
-
     def getUserName(self,session_id):
         if session_id in self.__authenticated_users:
             return self.__authenticated_users[session_id].username
         else:
             return None
+        
     def getUserSessionId(self, username):
         for session_id in self.__authenticated_users:
             if username == self.__authenticated_users[session_id].username:
                 return session_id
-        return None  # Retorna None se o usuário não for encontrado
-
+        return None 
 
     def checkUser(self, username, password):
         for user in self.__user_accounts:
             if user.username == username and user.password == password:
-                session_id = str(uuid.uuid4())  # Gera um ID de sessão único
+                session_id = str(uuid.uuid4())  #gera um ID de sessão único
                 self.__authenticated_users[session_id] = user
-                return session_id  # Retorna o ID de sessão para o usuário
+                return session_id  #retorna o ID de sessão para o usuário
         return None
 
     def user_exists(self, username):
-        return any(user.username == username for user in self.__user_accounts)
+        return any(user.username == username for user in self.__user_accounts) #se usuário já existe
 
 
     def logout(self, session_id):
         if session_id in self.__authenticated_users:
-            del self.__authenticated_users[session_id] # Remove o usuário logado
+            del self.__authenticated_users[session_id] #remove o usuário logado
 
-    def update_score(self, session_id, points):
+    def update_score(self, session_id, points): #atualiza pontuacão do usuário
         user = self.getCurrentUser(session_id)
         if user:
             user.score += points
@@ -81,5 +77,5 @@ class DataRecord():
         return 0
 
     def get_all_users(self):
-        # Retorna todos os usuários com suas pontuações
+        #todos os usuários com suas pontuações
         return [vars(user) for user in self.__user_accounts]

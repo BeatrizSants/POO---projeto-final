@@ -1,5 +1,4 @@
-
-#classe responsavel por gerenciar atualização de pontuação
+#intermediario entre application e datarecor, atualizacao de pontos
 class Score:
     def __init__(self,data_record):
         self.data_record=data_record
@@ -17,4 +16,4 @@ class Score:
 
     def get_ranking(self):
         users = self.data_record.get_all_users()
-        return sorted(users, key=lambda x: x['score'], reverse=True)  # Ordenando por score
+        return sorted(users, key=lambda x: x['score'], reverse=True)  #ordenando por score

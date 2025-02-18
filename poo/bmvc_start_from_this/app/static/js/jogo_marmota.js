@@ -43,13 +43,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function handleMoleClick(mole) {
-        fetch('/hit_mole', { method: 'POST' }).then(loadScore);
+        fetch('/add_score', { method: 'POST' }).then(loadScore);
         mole.style.display = 'none';
         
     }
 
     function handleTrapClick(trap) {
-        fetch('/hit_trap', { method: 'POST' }).then(loadScore);
+        fetch('/take_score', { method: 'POST' }).then(loadScore);
         trap.style.display = 'none';
         
     }

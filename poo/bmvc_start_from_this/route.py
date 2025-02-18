@@ -37,7 +37,7 @@ def signup():
     username = request.forms.get('username')
     password = request.forms.get('password')
     if not ctl.create_user(username, password): return template('app/views/html/portal', error="Nome de usuário já existe!")
-    return redirect('/')  # Redireciona para login após o cadastro
+    return redirect('/')
 
     
 @app.route('/lobby/<username>', method='GET')
@@ -67,7 +67,6 @@ def jogo_marmota(username):
         return ctl.render('jogo_marmota', username)
     else:
         return redirect('/')
-    
 
 @app.route('/ranking/<username>', method='GET')
 def ranking(username):
@@ -79,13 +78,13 @@ def ranking(username):
 def start_game():
     return gameservice.start_game()
 
-@app.route('/hit_mole', method='POST')
-def hit_mole():
-    return gameservice.hit_mole()
+@app.route('/add_score', method='POST')
+def add_score():
+    return gameservice.add_score()
 
-@app.route('/hit_trap', method='POST')
-def hit_trap():
-    return gameservice.hit_trap()
+@app.route('/take_score', method='POST')
+def take_score():
+    return gameservice.take_score()
 
 @app.route('/end_game', method='POST')
 def end_game():
@@ -94,12 +93,6 @@ def end_game():
 @app.route('/get_score', method='GET')
 def get_score():
     return gameservice.get_score()
-
-
-
-
-#-----------------------------------------------------------------------------
-# Suas rotas aqui:
 
 
 

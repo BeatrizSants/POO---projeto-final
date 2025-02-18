@@ -15,7 +15,7 @@ class Application():
 
         self.__model = DataRecord()
         self.__score = Score(self.__model)
-        self.__current_username = None # Criando a instância da classe WebSocketHandler
+        self.__current_username = None
 
     def render(self,page,username=None):
         content = self.pages.get(page)
@@ -48,10 +48,10 @@ class Application():
     
 
     def create_user(self, username, password):
-        if self.__model.user_exists(username):  # Verifica se o usuário já existe
-            return False  # Retorna False se o nome já estiver cadastrado
-        self.__model.book(username, password)
-        return True  # Retorna True se o usuário for criado com sucesso
+        if self.__model.user_exists(username):  #verifica se o usuário já existe
+            return False  
+        self.__model.book(username, password) #cria novo usuário
+        return True 
 
 
     def logout_user(self):
@@ -60,7 +60,7 @@ class Application():
         if session_id:
             self.__model.logout(session_id)
 
-#conectando com classe Score p/ atualizar e carregar pontuacao
+#delegando p/ classe Score p/ atualizar e carregar pontuacao
     def update_score(self, session_id, points):
         return self.__score.update_score(session_id, points)
 
