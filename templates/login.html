@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Login</h1>
+        <form id="loginForm">
+            <label for="username">Usuário:</label>
+            <input type="text" id="username" name="username" required>
+            <label for="password">Senha:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit">Entrar</button>
+        </form>
+        <p>Não tem uma conta? <a href="/cadastro">Cadastre-se</a></p>
+    </div>
+    <script>
+        const ws = new WebSocket('ws://localhost:8080/websocket');
+
+        ws.onopen = () => {
+            console.log('Conectado ao WebSocket');
+        };
+
+        ws.onmessage = (event) => {
+            const result = JSON.parse(event.data);
+            if (result.success) {
+                alert(result.message); // Exibe a mensagem recebida do WebSocket
+                window.location.href = '/dashboard'; // Redireciona para a página de dashboard
+            } else {
+                alert(result.message);
+            }
+        };
+
+        ws.onerror = (error) => {
+            console.error('Erro no WebSocket:', error);
+        };
+
+        const form = document.getElementById('loginForm');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Envia os dados de login via WebSocket
+            ws.send(JSON.stringify({ type: 'login', username, password }));
+        });
+    </script>
+</body>
+</html>

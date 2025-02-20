@@ -1,0 +1,107 @@
+/* Cores vibrantes */
+:root {
+    --verde-escuro: #1B5E20; /* Verde escuro */
+    --verde-medio: #2E7D32; /* Verde médio */
+    --verde-claro: #4CAF50; /* Verde claro */
+    --branco: #FFFFFF; /* Branco */
+    --cinza-claro: #F5F5F5; /* Cinza claro */
+    --sombra: rgba(0, 0, 0, 0.2); /* Sombra mais forte */
+}
+
+/* Estilos gerais */
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #1B5E20, #4CAF50, #87CEEB, #FFD700);
+    background-size: 400% 400%;
+    animation: gradientBackground 15s ease infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+@keyframes gradientBackground {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.container {
+    background-color: var(--branco);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px var(--sombra);
+    width: 350px;
+    text-align: center;
+}
+
+h1 {
+    color: var(--verde-escuro);
+    margin-bottom: 20px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--verde-escuro);
+    font-weight: bold;
+    text-align: left;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 2px solid var(--verde-medio);
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--verde-escuro);
+    transition: border-color 0.3s ease;
+}
+
+input:focus {
+    border-color: var(--verde-claro);
+    outline: none;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    background-color: var(--verde-escuro);
+    color: var(--branco);
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: var(--verde-medio);
+}
+
+p {
+    margin-top: 20px;
+    color: var(--verde-escuro);
+    font-size: 14px;
+}
+
+a {
+    color: var(--verde-claro);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}
