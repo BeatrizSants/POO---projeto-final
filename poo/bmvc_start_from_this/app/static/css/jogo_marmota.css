@@ -1,5 +1,83 @@
-body { text-align: center; background-color: #f0f8ff; }
-h1 { color: #333; }
+@import url('https://fonts.googleapis.com/css2?family=Barriecito&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Signika+Negative:wght@300..700&display=swap');
+body {
+    text-align: center;
+    background-image: url('/static/img/background.png');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    font-family: "Roboto Mono", serif;
+    font-size: 18px;
+}
+
+h1 {
+    color: #000000;
+    font-family: "Barriecito", serif;
+    font-size: 60px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    text-shadow: 0 0 20px #fff, 0 0 30px #ffffff;
+    padding: 20px;
+    background-color: rgba(250, 225, 156, 0.5);
+    border-radius: 10px;
+    display: inline-block;
+}
+
+.conteiner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    height: auto;
+    background-color: #f7f7add8 ;
+    border-radius: 15px;
+    padding: 15px;
+    width: 80%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+label, select {
+    margin-bottom: 15px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+button {
+    padding: 15px 30px;
+    font-size: 20px;
+    background-color: #7fca83;
+    color: white;
+    border: groove;
+    border-color: #60ca65;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    font-weight: 600;
+}
+
+button:hover {
+    background-color: #34b93b;
+    transform: scale(1.1);
+    border: 2px solid #388e3c;
+}
+
+.game {
+    display: none;
+}
+
+.game-info {
+    color: #000000;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    text-shadow: 0 0 20px #fff, 0 0 30px #ffffff;
+    padding: 20px;
+    background-color: rgba(250, 225, 156);
+    border-radius: 10px;
+    display: inline-block;
+}
+
 #game-board {
     display: grid;
     grid-template-columns: repeat(3, 100px);
@@ -7,13 +85,17 @@ h1 { color: #333; }
     justify-content: center;
     margin-top: 20px;
 }
+
 .hole {
     width: 100px;
     height: 100px;
+    border: 2px solid;
     background-color: #8b4513;
+    border-color: #442007;
     border-radius: 50%;
     position: relative;
 }
+
 .mole, .trap {
     width: 80px;
     height: 80px;
@@ -23,6 +105,49 @@ h1 { color: #333; }
     left: 10px;
     display: none;
     cursor: pointer;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
 }
-.mole { background-color: #000; }
-.trap { background-color: red; }
+
+.mole {
+    background-image: url('/static/img/cheese.png');
+}
+
+.trap {
+    background-image: url('/static/img/caution.png');
+}
+
+.end-game {
+    display: none;
+    text-align: center;
+    background-color: rgba(250, 225, 156, 0.7);
+    padding: 20px;
+    border-radius: 15px;
+    width: 80%;
+    max-width: 500px;
+    margin: 0 auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.end-game button {
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #7fca83;
+    color: white;
+    border: groove;
+    border-color: #60ca65;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.end-game button:hover {
+    background-color: #34b93b;
+    transform: scale(1.1);
+    border: 2px solid #388e3c;
+}

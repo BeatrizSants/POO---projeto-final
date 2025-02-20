@@ -2,11 +2,21 @@
     {
         "username": "Beatriz",
         "password": "123",
-        "score": 10
+        "score": 14
     },
     {
-        "username": "LAra",
+        "username": "Lara",
         "password": "123",
         "score": 0
+    },
+    {
+        "username": "Henrique",
+        "password": "123",
+        "score": 2
+    },
+    {
+        "username": "Davi",
+        "password": "123",
+        "score": 7
     }
 ]

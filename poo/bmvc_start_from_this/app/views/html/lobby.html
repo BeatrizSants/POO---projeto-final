@@ -7,31 +7,27 @@
     <link rel="stylesheet" href="/static/css/lobby.css">
 </head>
 <body>
-    <h1>Bem-vindo ao Lobby, {{current_user.username}}!</h1>
+    <h1 id="welcome-message">
+        Bem-vindo ao Lobby, <a href="/pagina/{{current_user.username}}" id="username">{{current_user.username}}</a>!
+    </h1>
 
-    <p>Escolha o que deseja fazer:</p>
-    <ul>
-        <li>
-            <form action="/pagina/{{current_user.username}}" method="get">
-                <button type="submit">👤 Ver Perfil</button>
-            </form>
-        </li>
-    </ul>
-    <ul>
-        <li>
-            <form action="/jogo_marmota/{{current_user.username}}" method="get">
-                <button type="submit">🎯 Jogo 1</button>
-            </form>
-        </li>
-    </ul>
-    <ul>
-        <li>
-            <form action="/ranking/{{current_user.username}}" method="get">
-                <button type="submit">🏆 Ver Ranking</button>
-            </form>
-        </li>
-    </ul>
-    
-    
+    <div class="container">
+        <p>Escolha o que deseja fazer:</p>
+
+        <ul>
+            <li>
+                <form action="/jogo_marmota/{{current_user.username}}" method="get">
+                    <button type="submit">🧀 Joga - My.Queijo</button>
+                </form>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <form action="/ranking/{{current_user.username}}" method="get">
+                    <button type="submit">🏆 Ver Ranking</button>
+                </form>
+            </li>
+        </ul>
+    </div>
 </body>
 </html>

@@ -4,32 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/static/css/jogo_marmota.css">
+    <script src="/static/js/jogo_marmota.js"></script>
    
-    <title>Jogo da Marmota</title>
+    <title>Jogo - My.Queijo</title>
 </head>
 <body>
-    <h1>Jogo da Marmota 🦫</h1>
-    <p>Pontuação: <span id="score">0</span></p>
-    <label for="game-time">Tempo de jogo:</label>
-    <select id="game-time">
-        <option value="15">15s</option>
-        <option value="30">30s</option>
-        <option value="60">1 min</option>
-    </select>
-    <button onclick="startGame()">Iniciar Jogo</button>
+    <h1>My.Queijo 🧀🐭 </h1>
+    <div class="conteiner">
+        <p>Bem-vindo, jogador!👋 Aqui vai uma breve introdução ao <strong>My.Queijo🧀</strong>. É simples, você deve coletar o máximo de queijos que conseguir. Legal, né?😄👍 Mas fique atento 👀, pois existem armadilhas traiçoeiras 🕳️ espalhadas pelo caminho, e elas podem tirar tudo de você! Só os mais rápidos e atentos 🏃‍♂️ vão conseguir se sair bem. Está pronto para o desafio? Então, escolha o seu tempo ⏱️ e prepare-se para jogar. <strong>Boa sorte!🍀</strong></p>
+        <label for="game-time"><strong>Tempo de Jogo:</strong></label>
+        <select id="game-time">
+            <option value="15">15s</option>
+            <option value="30">30s</option>
+            <option value="60">1 min</option>
+        </select>
+        <button onclick="startGame()">JOGAR</button>
 
-    <div id="game-board">
-        <!-- 9 buracos -->
-        <div class="hole"><div class="mole"></div><div class="trap"></div></div>
-        <div class="hole"><div class="mole"></div><div class="trap"></div></div>
-        <div class="hole"><div class="mole"></div><div class="trap"></div></div>
-        <div class="hole"><div class="mole"></div><div class="trap"></div></div>
-        <div class="hole"><div class="mole"></div><div class="trap"></div></div>
-        <div class="hole"><div class="mole"></div><div class="trap"></div></div>
-        <div class="hole"><div class="mole"></div><div class="trap"></div></div>
-        <div class="hole"><div class="mole"></div><div class="trap"></div></div>
-        <div class="hole"><div class="mole"></div><div class="trap"></div></div>
     </div>
+    <div class="game">
+        <div class="game-info">
+            <p><strong>Pontuação:</strong> <span id="score">0</span></p>
+            <p><strong>Tempo restante:</strong><span id="timer">0</span></p>
+        </div>
+    
+        <div id="game-board">
+            <!-- 9 buracos -->
+            <div class="hole"><div class="mole"></div><div class="trap"></div></div>
+            <div class="hole"><div class="mole"></div><div class="trap"></div></div>
+            <div class="hole"><div class="mole"></div><div class="trap"></div></div>
+            <div class="hole"><div class="mole"></div><div class="trap"></div></div>
+            <div class="hole"><div class="mole"></div><div class="trap"></div></div>
+            <div class="hole"><div class="mole"></div><div class="trap"></div></div>
+            <div class="hole"><div class="mole"></div><div class="trap"></div></div>
+            <div class="hole"><div class="mole"></div><div class="trap"></div></div>
+            <div class="hole"><div class="mole"></div><div class="trap"></div></div>
+        </div>
+    </div>
+    <div class="end-game">
+        <div class="end-message">
+            <p><strong>Fim do jogo!</strong></p>
+            <p>Sua pontuação no ranking é: <span id="final-score">0</span></p>
+            <button onclick="restartGame()">Voltar ao início</button>
+        </div>
+    </div>
+    
 </body>
-<script src="/static/js/jogo_marmota.js"></script>
+
 </html>
