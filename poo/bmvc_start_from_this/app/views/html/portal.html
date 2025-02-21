@@ -3,29 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/css/portal.css">
+    
     <title>Portal</title>
 </head>
 <body>
     
-    <form action="/portal" method="post">
-        <h1>Login</h1>
-        <label for="username">Nome:</label>
-        <input id="username" name="username" type="text" required /><br>
+    <div id="loginSection">
+        <form action="/portal" method="post" id="loginForm">
+            <h1>Login</h1>
+            
+            <input id="username" name="username" type="text" required placeholder="Username"/><br>
+            
+            <input id="password" name="password" type="password" required placeholder="Password"/><br>
+            
+            <input value="Login" type="submit" />
+        </form>
+        <p><a href="#" onclick="showSignup()">Ainda não tem uma conta? Cadastre-se</a></p>
+    </div>
 
-        <label for="password">Senha:</label>
-        <input id="password" name="password" type="password" required /><br>
-
-        <input value="Login" type="submit" />
-    </form>
-
-    <form action="/signup" method="post">
-        <h2>Cadastre-se</h2>
-        <input type="text" name="username" placeholder="Usuário" required>
-        <input type="password" name="password" placeholder="Senha" required>
-        <button type="submit">Criar Conta</button>
-    </form>
+    <div id="signupSection">
+        <form action="/signup" method="post" id="signupForm">
+            <h1>Cadastre-se</h1>
+            
+            <input type="text" id="signupUsername" name="username" required placeholder="Username"><br>
+            
+           
+            <input type="password" id="signupPassword" name="password" required placeholder="Password"><br>
+            
+            <button type="submit">Criar Conta</button>
+        </form>
+        <p><a href="#" onclick="showLogin()">Já tem uma conta? Faça login</a></p>
+    </div>
     
 
-    <div id="status"></div>
+    <div id="status">
+    </div>
+    <script src="/static/js/portal.js"></script>
 </body>
 </html>

@@ -1,11 +1,20 @@
+from gevent import monkey
+monkey.patch_all() 
 from app.controllers.application import Application
 from bottle import Bottle, route, run, request, static_file, redirect, template, response, json_dumps
 from app.models.gameservice import GameService
+from geventwebsocket import WebSocketError
+from geventwebsocket.handler import WebSocketHandler
+from gevent.pywsgi import WSGIServer
+import json
 app = Bottle()
 ctl = Application()
+
+
+
+
 gameservice = GameService(ctl)
 #associação entre GameService e Application
-
 
 #-----------------------------------------------------------------------------
 # Rotas:
@@ -14,7 +23,44 @@ gameservice = GameService(ctl)
 def serve_static(filepath):
     return static_file(filepath, root='./app/static')
 
+#rota ws ----------------------------------------------------------------
+@app.route('/ws_login', method='GET')
+def ws_login():
+    ws = request.environ.get('wsgi.websocket')
+    if not ws:
+        return  # Se não for uma conexão WebSocket válida, sai da função
 
+    try:
+        message = ws.receive()  # Recebe a mensagem de login do cliente
+        if message == 'login_success':
+            # Envia mensagem de sucesso de login
+            ws.send(json.dumps({'status': 'success', 'message': 'Login bem-sucedido!'}))
+        else:
+            # Envia mensagem de erro caso o login falhe
+            ws.send(json.dumps({'status': 'error', 'message': 'Login inválido!'}))
+    except WebSocketError as e:
+        print(f"Erro WebSocket: {e}")
+    finally:
+        ws.close()  # Fecha a conexão WebSocket
+
+@app.route('/ws_signup', method='GET')
+def ws_signup():
+    ws = request.environ.get('wsgi.websocket')
+    if not ws:
+        return  # Se não for uma conexão WebSocket válida, sai da função
+
+    try:
+        message = ws.receive()  # Recebe a mensagem de cadastro do cliente
+        if message == 'signup_success':
+            ws.send(json.dumps({'status': 'success', 'message': 'Cadastro bem-sucedido!'}))
+        else:
+            ws.send(json.dumps({'status': 'error', 'message': 'Cadastro inválido!'}))
+    except WebSocketError as e:
+        print(f"Erro WebSocket: {e}")
+    finally:
+        ws.close()  # Fecha a conexão WebSocket
+        
+########----------------------------------------------------------------------
 @app.route('/', method='GET')
 def login():
     return ctl.render('portal') 
@@ -28,17 +74,30 @@ def action_portal():
     if session_id:
         response.set_cookie('session_id', session_id, httponly=True, \
         secure=True, max_age=3600)
+
         return redirect(f'/lobby/{username}')
     else:
-        return redirect('/')
+        
+        return template('app/views/html/portal', error="Nome de usuário ou senha inválidos!")
     
 
 @app.route('/signup', method='POST')
 def signup():
     username = request.forms.get('username')
     password = request.forms.get('password')
-    if not ctl.create_user(username, password): return template('app/views/html/portal', error="Nome de usuário já existe!")
-    return redirect('/')
+    
+    if not ctl.create_user(username, password):
+        return template('app/views/html/portal', error="Nome de usuário já existe!")
+
+    # Se o cadastro for bem-sucedido, envia a mensagem pelo WebSocket
+    ws = request.environ.get('wsgi.websocket')
+    if ws:
+        try:
+            ws.send(json.dumps({'status': 'success', 'message': 'Cadastro bem-sucedido!'}))
+        except WebSocketError as e:
+            print(f"Erro WebSocket: {e}")
+    
+    return redirect('/')  # Redireciona para a página inicial após o cadastro bem-sucedido
 
     
 @app.route('/lobby/<username>', method='GET')
@@ -75,6 +134,8 @@ def ranking(username):
         return redirect('/')
     return ctl.ranking()
 
+
+#rotas de jogo
 @app.route('/start_game', method='POST')
 def start_game():
     return gameservice.start_game()
@@ -98,8 +159,10 @@ def get_score():
 
 
 #-----------------------------------------------------------------------------
-
+def start_servers():
+    http_server = WSGIServer(('localhost', 8080), app, handler_class=WebSocketHandler)
+    print("Servidor rodando em: http://localhost:8080")
+    http_server.serve_forever()
 
 if __name__ == '__main__':
-
-    run(app, host='localhost', port=8080, debug=True)
+    start_servers()

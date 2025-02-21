@@ -17,7 +17,7 @@ class Application():
         #composição Applicatin com DataRecors
         self.__score = Score(self.__model)
         #associação entre Score e DataRecord
-        #composição Apli=plication com Score
+        #composição Application com Score
         self.__current_username = None
 
     def render(self,page,username=None):
