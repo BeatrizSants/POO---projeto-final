@@ -1,7 +1,11 @@
 from app.models.user_account import UserAccount
 import json
 import uuid
+import bcrypt
+import base64
+import logging
 
+logging.basicConfig(level=logging.DEBUG)
 class DataRecord():
     def __init__(self):
         self.__user_accounts= [] # banco (json)
@@ -23,10 +27,30 @@ class DataRecord():
         self.save_to_json()
 
     def save_to_json(self):
-        with open("app/controllers/db/user_accounts.json", "w") as arquivo_json: #escrever no json
-            user_data = [vars(user_account) for user_account in \
-            self.__user_accounts]
+        user_data = []
+        for user_account in self.__user_accounts:
+            user_dict = vars(user_account)
+            
+            if isinstance(user_account.password, bytes):
+                # Se a senha já for bytes (hash bcrypt), simplesmente a armazena
+                user_dict['password'] = user_account.password.decode('utf-8')
+            else:
+                # Caso contrário, cria o hash e armazena diretamente o valor do hash bcrypt
+                if not self._is_hashed(user_account.password):
+                    hashed_password = bcrypt.hashpw(user_account.password.encode('utf-8'), bcrypt.gensalt())
+                    user_dict['password'] = hashed_password.decode('utf-8')
+
+            user_data.append(user_dict)
+
+        # Grava os dados no arquivo JSON
+        with open("app/controllers/db/user_accounts.json", "w") as arquivo_json:
             json.dump(user_data, arquivo_json, indent=4)
+
+    def _is_hashed(self, password):
+    # Check if the password looks like a bcrypt hash
+        return password.startswith('$2a$') or password.startswith('$2b$')
+
+        
 
     def getCurrentUser(self,session_id):
         if session_id in self.__authenticated_users:
@@ -48,11 +72,28 @@ class DataRecord():
 
     def checkUser(self, username, password):
         for user in self.__user_accounts:
-            if user.username == username and user.password == password:
-                session_id = str(uuid.uuid4())  #gera um ID de sessão único
-                self.__authenticated_users[session_id] = user
-                return session_id  #retorna o ID de sessão para o usuário
+            if user.username == username:
+                logging.debug(f"Senha armazenada (bcrypt): {user.password}")
+                
+                # Decodifica a senha armazenada (bcrypt)
+                try:
+                    stored_hashed_password = user.password.encode('utf-8')
+                    logging.debug(f"Senha recuperada (bytes): {stored_hashed_password}")
+                except Exception as e:
+                    logging.error(f"Erro ao processar a senha: {e}")
+                    return None
+
+                # Verifica se a senha fornecida corresponde ao hash armazenado
+                if bcrypt.checkpw(password.encode('utf-8'), stored_hashed_password):
+                    logging.debug(f"Stored hash: {stored_hashed_password}")
+                    # Se a senha corresponder, cria uma nova sessão para o usuário
+                    session_id = str(uuid.uuid4())  # Gera um ID de sessão único
+                    self.__authenticated_users[session_id] = user
+                    return session_id  # Retorna o ID da sessão
+
         return None
+
+
 
     def user_exists(self, username):
         return any(user.username == username for user in self.__user_accounts) #se usuário já existe

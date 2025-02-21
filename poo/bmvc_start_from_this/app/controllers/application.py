@@ -1,6 +1,7 @@
 from bottle import template,redirect, request
 from app.controllers.datarecord import DataRecord
 from app.controllers.score import Score
+import bcrypt
 
 class Application():
 
@@ -54,7 +55,9 @@ class Application():
     def create_user(self, username, password):
         if self.__model.user_exists(username):  #verifica se o usuário já existe
             return False  
-        self.__model.book(username, password) #cria novo usuário
+        salt = bcrypt.gensalt()
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
+        self.__model.book(username, hashed_password) #cria novo usuário
         return True 
 
 

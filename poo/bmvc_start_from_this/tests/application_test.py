@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import MagicMock
 from app.controllers.application import Application
-
+from unittest.mock import patch
 class TestApplicationAuth(unittest.TestCase):
     def setUp(self):
         """Configuração inicial antes de cada teste"""
@@ -45,11 +45,14 @@ class TestApplicationAuth(unittest.TestCase):
     def test_create_user_success(self):
         """Testa criação de usuário novo"""
         self.mock_datarecord.user_exists.return_value = False
-
-        result = self.app.create_user("novo_jogador", "senha123")
+        
+        # Mock para bcrypt.gensalt e bcrypt.hashpw
+        with patch('bcrypt.gensalt', return_value=b'$2b$12$P4akoZFVWqy3RIV/olpzSONFfOb2DhaqWFcPuOF3mKazMSit8hAwO'):
+            with patch('bcrypt.hashpw', return_value=b'$2b$12$P4akoZFVWqy3RIV/olpzSONFfOb2DhaqWFcPuOF3mKazMSit8hAwO'):
+                result = self.app.create_user("novo_jogador", "senha123")
 
         self.assertTrue(result)
-        self.mock_datarecord.book.assert_called_with("novo_jogador", "senha123")
+        self.mock_datarecord.book.assert_called_with("novo_jogador", b'$2b$12$P4akoZFVWqy3RIV/olpzSONFfOb2DhaqWFcPuOF3mKazMSit8hAwO')
 
     def test_create_user_already_exists(self):
         """Testa tentativa de criar usuário já existente"""

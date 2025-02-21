@@ -11,7 +11,8 @@
 /* Estilos gerais */
 body {
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #1B5E20, #4CAF50, #87CEEB, #FFD700);
+    background: linear-gradient(135deg, #1B5E20, #4CAF50, #66BB6A, #87CEEB, #ADD8E6, #FFD700);
+
     background-size: 400% 400%;
     animation: gradientBackground 15s ease infinite;
     display: flex;
