@@ -15,7 +15,6 @@ class Application():
         }
 
         self.__model = DataRecord()
-        #composição Applicatin com DataRecors
         self.__score = Score(self.__model)
         #associação entre Score e DataRecord
         #composição Application com Score

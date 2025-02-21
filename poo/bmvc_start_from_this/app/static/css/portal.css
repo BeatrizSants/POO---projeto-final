@@ -1,3 +1,5 @@
+
+
 /* Cores vibrantes */
 :root {
     --verde-escuro: #1B5E20; /* Verde escuro */
@@ -10,9 +12,8 @@
 
 /* Estilos gerais */
 body {
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #1B5E20, #4CAF50, #66BB6A, #87CEEB, #ADD8E6, #FFD700);
-
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(135deg, #004d00, #008080, #87ceeb, #ffd700, #d69301);
     background-size: 400% 400%;
     animation: gradientBackground 15s ease infinite;
     display: flex;
@@ -21,6 +22,19 @@ body {
     height: 100vh;
     margin: 0;
     position: relative; /* Necessário para a sobreposição */
+}
+
+
+@keyframes gradientBackground {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 .container {
     display: flex;
@@ -47,30 +61,18 @@ body {
 
 
 
-@keyframes gradientBackground {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
-}
-
 
 h1 {
-    color: var(--verde-escuro);
+    color: #ffff;
     margin-bottom: 20px;
-    font-size: 28px;
+    font-size: 35px;
     font-weight: bold;
 }
 
 label {
     display: block;
     margin-bottom: 8px;
-    color: var(--verde-escuro);
+    color: #ffff;
     font-weight: bold;
     text-align: left;
 }
@@ -79,22 +81,22 @@ input {
     width: 80%;
     padding: 12px;
     margin-bottom: 20px;
-    border: 2px solid var(--verde-medio);
+    border: 2px solid #d3d1d1;
     border-radius: 8px;
-    font-size: 14px;
-    color: var(--verde-escuro);
+    font-size: 15px;
+    color: #000;
     transition: border-color 0.3s ease;
 }
 
 input:focus {
-    border-color: var(--verde-claro);
+    border-color: #000;
     outline: none;
 }
 
 button {
-    width: 100%;
+    width: 70%;
     padding: 14px;
-    background-color: var(--verde-escuro);
+    background-color: #818181;
     color: var(--branco);
     border: none;
     border-radius: 8px;
@@ -105,17 +107,13 @@ button {
 }
 
 button:hover {
-    background-color: var(--verde-medio);
+    background-color: #b8b8b8;
 }
 
-p {
-    margin-top: 20px;
-    color: var(--verde-escuro);
-    font-size: 14px;
-}
 
-a {
-    color: var(--verde-escuro);
+
+a,p {
+    color: #ffff;
     text-decoration: none;
     font-weight: bold;
 }

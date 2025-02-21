@@ -2,7 +2,7 @@
     {
         "username": "Beatriz",
         "password": "$2b$12$kMJRmaiNySCc4e8gbMer.OQAICG6.vbhv4R7Ie1sYuw8E2Gu7CosS",
-        "score": 0
+        "score": 6
     },
     {
         "username": "Moura",
@@ -18,5 +18,15 @@
         "username": "Davi",
         "password": "$2b$12$bnTKNBr8mIfFg/N99FtgHewZgCyyi1Nw67uR.qNXYF27EawInAD0C",
         "score": 0
+    },
+    {
+        "username": "Lara",
+        "password": "$2b$12$54H1sj8FQi9TF/CGrLM7BeXN1QxaCsghGzPhQj7xwgaD38TP7Rt..",
+        "score": 2
+    },
+    {
+        "username": "julia",
+        "password": "$2b$12$FK.jd4FVS1fIpLq7Y5VGquOeRTZ7osJOHYKfz9hBUAqGdoxhHW8lu",
+        "score": 5
     }
 ]
